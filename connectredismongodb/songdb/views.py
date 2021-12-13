@@ -15,8 +15,7 @@ class SongList(APIView):
     def post(self, request,format=None):
         songSerializer = SongSerializer(data=request.data)
         if songSerializer.is_valid():
+            cache.delete('song')
             songSerializer.save()
             return Response(songSerializer.data, status=status.HTTP_201_CREATED)
         return Response(songSerializer.errors, status=400)
-    
-
